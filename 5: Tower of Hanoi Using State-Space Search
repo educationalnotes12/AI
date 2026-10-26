@@ -1,26 +1,43 @@
-def tower_of_hanoi(n, source, auxiliary, destination, moves):
-    if n == 1:
+def tower_of_hanoi(number_of_disks, source, auxiliary, destination, moves):
+
+    if number_of_disks == 1:
         moves.append((source, destination))
         return
 
-    tower_of_hanoi(n - 1, source, destination, auxiliary, moves)
+    tower_of_hanoi(
+        number_of_disks - 1,
+        source,
+        destination,
+        auxiliary,
+        moves
+    )
 
     moves.append((source, destination))
 
-    tower_of_hanoi(n - 1, auxiliary, source, destination, moves)
+    tower_of_hanoi(
+        number_of_disks - 1,
+        auxiliary,
+        source,
+        destination,
+        moves
+    )
 
 
-n = int(input("Enter number of disks: "))
+try:
+    disks = int(input("Enter number of disks: "))
 
-if n <= 0:
-    print("Enter a positive number")
+    if disks <= 0:
+        print("Please enter a positive number of disks.")
 
-else:
-    moves = []
+    else:
+        moves = []
 
-    tower_of_hanoi(n, "A", "B", "C", moves)
+        tower_of_hanoi(disks, "A", "B", "C", moves)
 
-    print("Total moves:", len(moves))
+        print("\nTotal moves required:", len(moves))
 
-    for i, move in enumerate(moves, start=1):
-        print("Move", i, ":", move[0], "->", move[1])
+        for step, (source, destination) in enumerate(moves, start=1):
+            print(f"Move {step}: {source} -> {destination}")
+
+except ValueError:
+    print("Invalid input. Enter a whole number.")
