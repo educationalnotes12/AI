@@ -1,0 +1,85 @@
+def dfs_maze(maze, start, goal):
+    rows = len(maze)
+    cols = len(maze[0])
+
+    visited = set()
+    path = []
+
+    def dfs(row, col):
+        if not (0 <= row < rows and 0 <= col < cols):
+            return False
+
+        if maze[row][col] == 1 or (row, col) in visited:
+            return False
+
+        visited.add((row, col))
+        path.append((row, col))
+
+        print("Visited:", (row, col))
+
+        if (row, col) == goal:
+            return True
+
+        moves = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        for dr, dc in moves:
+            if dfs(row + dr, col + dc):
+                return True
+
+        path.pop()
+        return False
+
+    if dfs(start[0], start[1]):
+        return path
+
+    return None
+
+
+rows = int(input("Enter number of rows: "))
+cols = int(input("Enter number of columns: "))
+
+if rows <= 0 or cols <= 0:
+    print("Invalid maze size")
+    raise SystemExit
+
+maze = []
+
+print("Enter maze values (0 = open, 1 = wall):")
+
+for i in range(rows):
+    row = list(map(int, input(f"Row {i}: ").split()))
+
+    if len(row) != cols or any(x not in [0, 1] for x in row):
+        print("Invalid row")
+        raise SystemExit
+
+    maze.append(row)
+
+start = tuple(map(int, input("Enter start row and column: ").split()))
+goal = tuple(map(int, input("Enter goal row and column: ").split()))
+
+for position in [start, goal]:
+    if len(position) != 2:
+        print("Invalid position")
+        raise SystemExit
+
+    r, c = position
+
+    if not (0 <= r < rows and 0 <= c < cols):
+        print("Position outside maze")
+        raise SystemExit
+
+    if maze[r][c] == 1:
+        print("Start and goal must be open cells")
+        raise SystemExit
+
+print("\nStarting DFS...\n")
+
+path = dfs_maze(maze, start, goal)
+
+if path:
+    print("\nGoal reached!")
+    print("Path:", path)
+    print("Number of steps:", len(path) - 1)
+else:
+    print("No path found")
