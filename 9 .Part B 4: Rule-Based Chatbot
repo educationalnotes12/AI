@@ -1,0 +1,49 @@
+import re
+
+rules = [
+    (r".*\b(hi|hello|hey)\b.*",
+     "Hello! How can I help you?"),
+
+    (r".*\bhow are you\b.*",
+     "I am doing well!"),
+
+    (r".*\bmy name is (.+)",
+     "Nice to meet you, {}!"),
+
+    (r".*\b(bye|goodbye)\b.*",
+     "Goodbye! Have a great day!"),
+
+    (r".*\bwhat is your name\b.*",
+     "I am a rule-based chatbot."),
+
+    (r".*\bhelp\b.*",
+     "You can greet me or tell me your name.")
+]
+
+
+def chatbot_response(message):
+    message = message.lower().strip()
+
+    for pattern, response in rules:
+        match = re.fullmatch(pattern, message)
+
+        if match:
+            if match.groups():
+                return response.format(*match.groups())
+
+            return response
+
+    return "Sorry, I did not understand."
+
+
+print("Chatbot: Hello! Type 'bye' to exit.")
+
+while True:
+    message = input("You: ")
+    response = chatbot_response(message)
+
+    print("Chatbot:", response)
+
+    if re.fullmatch(r".*\b(bye|goodbye)\b.*",
+                    message.lower().strip()):
+        break
