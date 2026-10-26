@@ -1,0 +1,53 @@
+### Python Program
+
+```python
+class VacuumCleaner:
+    def __init__(self, rooms, position):
+        self.rooms = rooms
+        self.position = position
+
+    def perceive(self):
+        return self.rooms[self.position]
+
+    def act(self):
+        status = self.perceive()
+
+        print("\nCurrent Position:", self.position)
+        print("Room Status:", status)
+
+        if status == "Dirty":
+            print("Action: Clean the room")
+            self.rooms[self.position] = "Clean"
+        else:
+            print("Action: Room is already clean")
+
+    def move(self):
+        if self.position == "A":
+            self.position = "B"
+        else:
+            self.position = "A"
+
+    def run(self):
+        for i in range(2):
+            self.act()
+            if i == 0:
+                self.move()
+
+        print("\nFinal Room Status:", self.rooms)
+
+
+rooms = {
+    "A": input("Enter status of Room A (Dirty/Clean): ").capitalize(),
+    "B": input("Enter status of Room B (Dirty/Clean): ").capitalize()
+}
+
+start = input("Enter starting position (A/B): ").upper()
+
+if start not in rooms:
+    print("Invalid starting position")
+elif any(status not in ["Dirty", "Clean"] for status in rooms.values()):
+    print("Invalid room status")
+else:
+    agent = VacuumCleaner(rooms, start)
+    agent.run()
+```
