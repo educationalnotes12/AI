@@ -1,43 +1,26 @@
-def tower_of_hanoi(number_of_disks, source, auxiliary, destination, moves):
+# Tower of Hanoi using State Space Search
 
-    if number_of_disks == 1:
-        moves.append((source, destination))
+def tower_of_hanoi(n, source, auxiliary, destination):
+
+    if n == 1:
+        print("Move disk 1 from", source, "to", destination)
         return
 
-    tower_of_hanoi(
-        number_of_disks - 1,
-        source,
-        destination,
-        auxiliary,
-        moves
-    )
+    # Move n-1 disks to auxiliary rod
+    tower_of_hanoi(n-1, source, destination, auxiliary)
 
-    moves.append((source, destination))
+    # Move largest disk to destination
+    print("Move disk", n, "from", source, "to", destination)
 
-    tower_of_hanoi(
-        number_of_disks - 1,
-        auxiliary,
-        source,
-        destination,
-        moves
-    )
+    # Move n-1 disks to destination rod
+    tower_of_hanoi(n-1, auxiliary, source, destination)
 
 
-try:
-    disks = int(input("Enter number of disks: "))
+# Main program
+n = int(input("Enter number of disks: "))
 
-    if disks <= 0:
-        print("Please enter a positive number of disks.")
+print("\nSteps to solve Tower of Hanoi:")
 
-    else:
-        moves = []
+tower_of_hanoi(n, 'A', 'B', 'C')
 
-        tower_of_hanoi(disks, "A", "B", "C", moves)
-
-        print("\nTotal moves required:", len(moves))
-
-        for step, (source, destination) in enumerate(moves, start=1):
-            print(f"Move {step}: {source} -> {destination}")
-
-except ValueError:
-    print("Invalid input. Enter a whole number.")
+print("\nTotal moves required:", 2**n - 1)
