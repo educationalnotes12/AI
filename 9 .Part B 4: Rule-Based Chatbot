@@ -1,49 +1,31 @@
-import re
-
-rules = [
-    (r".*\b(hi|hello|hey)\b.*",
-     "Hello! How can I help you?"),
-
-    (r".*\bhow are you\b.*",
-     "I am doing well!"),
-
-    (r".*\bmy name is (.+)",
-     "Nice to meet you, {}!"),
-
-    (r".*\b(bye|goodbye)\b.*",
-     "Goodbye! Have a great day!"),
-
-    (r".*\bwhat is your name\b.*",
-     "I am a rule-based chatbot."),
-
-    (r".*\bhelp\b.*",
-     "You can greet me or tell me your name.")
-]
-
-
-def chatbot_response(message):
-    message = message.lower().strip()
-
-    for pattern, response in rules:
-        match = re.fullmatch(pattern, message)
-
-        if match:
-            if match.groups():
-                return response.format(*match.groups())
-
-            return response
-
-    return "Sorry, I did not understand."
-
-
-print("Chatbot: Hello! Type 'bye' to exit.")
+print("chatbot:hello! welcome to my chatbot")
+print("chatbot:you can ask me about my name, age, or mood.")
+print("Chatbot: Type 'bye' to exit.")
 
 while True:
-    message = input("You: ")
-    response = chatbot_response(message)
 
-    print("Chatbot:", response)
+    user = input("You:").lower()
 
-    if re.fullmatch(r".*\b(bye|goodbye)\b.*",
-                    message.lower().strip()):
+    if "hello" in user:
+        print("Chatbot: Hello! How are you?")
+
+    elif "name" in user:
+        print("Chatbot: My name is Python Chatbot.")
+
+    elif "how are you" in user:
+        print("Chatbot: I am fine. Thank you!")
+
+    elif "age" in user:
+        print("Chatbot: I am just a computer program.")
+
+    elif "weather" in user:
+        print("Chatbot: Sorry, I cannot check live weather.")
+
+    elif "bye" in user:
+        print("Chatbot: Goodbye! Have a nice day.")
         break
+
+    else:
+        print("Chatbot: Sorry, I don't understand.")
+
+
